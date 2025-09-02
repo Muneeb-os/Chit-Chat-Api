@@ -3,6 +3,7 @@ namespace chit_chat_api
     public class WeatherForecast
     {
         public DateOnly Date { get; set; }
+        // commit here 
 
         public int TemperatureC { get; set; }
 
