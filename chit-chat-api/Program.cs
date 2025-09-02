@@ -7,9 +7,10 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-
+// test git
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
+
 {
     app.MapOpenApi();
 }
