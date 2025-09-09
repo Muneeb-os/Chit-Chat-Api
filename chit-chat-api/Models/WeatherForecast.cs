@@ -1,4 +1,4 @@
-namespace chit_chat_api
+namespace chit_chat_api.Models
 {
     public class WeatherForecast
     {

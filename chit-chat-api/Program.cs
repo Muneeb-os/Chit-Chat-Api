@@ -1,5 +1,32 @@
+using chit_chat_api.DB_Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
+var JwtSetting = builder.Configuration.GetSection("JWTSetting");
+
+// add dbcontext
+builder.Services.AddDbContext<_dbContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+
+// add  authentication
+builder.Services.AddAuthentication(x => { x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSetting.GetSection("SecurityKey").Value!)),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+    };
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -20,6 +47,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

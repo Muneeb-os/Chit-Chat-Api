@@ -1,3 +1,4 @@
+using chit_chat_api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace chit_chat_api.Controllers
