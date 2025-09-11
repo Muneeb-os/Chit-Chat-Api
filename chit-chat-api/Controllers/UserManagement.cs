@@ -1,6 +1,8 @@
 ﻿using chit_chat_api.DB_Data;
+using chit_chat_api.Helper;
 using chit_chat_api.Models;
 using chit_chat_api.Models.Model_DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +15,11 @@ namespace chit_chat_api.Controllers
     public class UserManagement : ControllerBase
     {
         private readonly _dbContext _dbContext;
-        public UserManagement(_dbContext context)
+        private readonly GenerateJwtToken _generatejwttoken;
+        public UserManagement(_dbContext context,GenerateJwtToken generateJwtToken)
         {
             _dbContext = context;
+            _generatejwttoken = generateJwtToken;
         }
         [HttpPost("RegisterUser")]
         public async Task<IActionResult> RegisterUser([FromBody] UserDto userdto)
@@ -104,6 +108,7 @@ namespace chit_chat_api.Controllers
             {
                 return Unauthorized("User not Registered.");
             }
+            var token = _generatejwttoken.JwtToken(user);
             if (user.user_password != logindto.password)
             {
                 return NotFound("Incorrect password");
@@ -113,8 +118,10 @@ namespace chit_chat_api.Controllers
                 {
                     message = "User Logged in successfully.",
                     user = user.user_name,
+                    token = token
                 });
         }
+        [Authorize]
         [HttpGet("Users")]
         public async Task<IActionResult> Users()
         {

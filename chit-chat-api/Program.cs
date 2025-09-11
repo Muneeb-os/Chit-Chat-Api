@@ -1,4 +1,5 @@
 using chit_chat_api.DB_Data;
+using chit_chat_api.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +28,8 @@ builder.Services.AddAuthentication(x => { x.DefaultAuthenticateScheme = JwtBeare
         ValidateAudience = false,
     };
 });
+
+builder.Services.AddScoped<GenerateJwtToken>();
 
 // Add services to the container.
 builder.Services.AddControllers();
