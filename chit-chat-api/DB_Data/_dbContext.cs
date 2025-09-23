@@ -14,5 +14,6 @@ namespace chit_chat_api.DB_Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<User_Profile_Image> ProfileImages { get; set; }
+        public DbSet<Message> Messages { get; set; }
     }
 }
