@@ -37,7 +37,7 @@ namespace chit_chat_api.Controllers
             {
                 user_name = userdto.user_name,
                 user_email = userdto.user_email,
-                user_password = userdto.user_password,
+                user_password = EncryptDecryptPassword.EncryptPassword(userdto.user_password),
                 created_at = DateTime.Now,
             };
             _dbContext.Users.Add(newuser);
@@ -108,8 +108,9 @@ namespace chit_chat_api.Controllers
             {
                 return Unauthorized("User not Registered.");
             }
+            var decryptpassword = EncryptDecryptPassword.DecryptPassword(user.user_password);
             var token = _generatejwttoken.JwtToken(user);
-            if (user.user_password != logindto.password)
+            if (decryptpassword != logindto.password)
             {
                 return NotFound("Incorrect password");
             }
