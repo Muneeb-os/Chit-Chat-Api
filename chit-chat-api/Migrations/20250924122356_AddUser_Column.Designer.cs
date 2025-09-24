@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using chit_chat_api.DB_Data;
 
@@ -11,9 +12,11 @@ using chit_chat_api.DB_Data;
 namespace chit_chat_api.Migrations
 {
     [DbContext(typeof(_dbContext))]
-    partial class _dbContextModelSnapshot : ModelSnapshot
+    [Migration("20250924122356_AddUser_Column")]
+    partial class AddUser_Column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace chit_chat_api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime?>("created_at")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool?>("is_read")
                         .HasColumnType("bit");

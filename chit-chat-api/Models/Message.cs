@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
 
 namespace chit_chat_api.Models
@@ -11,7 +12,8 @@ namespace chit_chat_api.Models
         public string? receiver_id { get; set; }
         public string ? message { get; set; }
         public bool ? is_read { get; set; }
-        public User? User { get; set; }
+        public bool? status { get; set; }
+        public DateTime?created_at { get; set; }
 
     }
 }

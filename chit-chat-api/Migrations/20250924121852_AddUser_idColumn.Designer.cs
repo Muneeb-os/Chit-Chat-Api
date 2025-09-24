@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using chit_chat_api.DB_Data;
 
@@ -11,9 +12,11 @@ using chit_chat_api.DB_Data;
 namespace chit_chat_api.Migrations
 {
     [DbContext(typeof(_dbContext))]
-    partial class _dbContextModelSnapshot : ModelSnapshot
+    [Migration("20250924121852_AddUser_idColumn")]
+    partial class AddUser_idColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +33,6 @@ namespace chit_chat_api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<DateTime?>("created_at")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool?>("is_read")
                         .HasColumnType("bit");
 
@@ -45,10 +45,15 @@ namespace chit_chat_api.Migrations
                     b.Property<string>("sender_id")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("status")
-                        .HasColumnType("bit");
+                    b.Property<int?>("user_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("user_id1")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("user_id1");
 
                     b.ToTable("Messages");
                 });
@@ -101,6 +106,15 @@ namespace chit_chat_api.Migrations
                         .IsUnique();
 
                     b.ToTable("ProfileImages");
+                });
+
+            modelBuilder.Entity("chit_chat_api.Models.Message", b =>
+                {
+                    b.HasOne("chit_chat_api.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("user_id1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("chit_chat_api.Models.User_Profile_Image", b =>
