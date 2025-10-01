@@ -1,5 +1,6 @@
 using chit_chat_api.DB_Data;
 using chit_chat_api.Helper;
+using chit_chat_api.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -63,7 +64,8 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
+// Configure SignalR
+builder.Services.AddSignalR();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -84,5 +86,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();

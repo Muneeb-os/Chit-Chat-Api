@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using chit_chat_api.DB_Data;
 
@@ -11,9 +12,11 @@ using chit_chat_api.DB_Data;
 namespace chit_chat_api.Migrations
 {
     [DbContext(typeof(_dbContext))]
-    partial class _dbContextModelSnapshot : ModelSnapshot
+    [Migration("20251001194006_AddUserOnlineTbl")]
+    partial class AddUserOnlineTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
