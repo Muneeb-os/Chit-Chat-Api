@@ -9,9 +9,20 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var JwtSetting = builder.Configuration.GetSection("JWTSetting");
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-// add dbcontext
-builder.Services.AddDbContext<_dbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+// Enable CORS
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy(name:MyAllowSpecificOrigins,
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200/")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+        });
+});
 
 // add  authentication
 builder.Services.AddAuthentication(x =>
@@ -33,6 +44,9 @@ builder.Services.AddAuthentication(x =>
 });
 
 builder.Services.AddScoped<GenerateJwtToken>();
+
+// add dbcontext
+builder.Services.AddDbContext<_dbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -80,6 +94,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 

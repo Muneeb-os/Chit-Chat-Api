@@ -12,6 +12,8 @@ namespace chit_chat_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    // Collapse all(to definitions) → Ctrl + M, Ctrl + O
     public class UserManagement : ControllerBase
     {
         private readonly _dbContext _dbContext;
